@@ -15,11 +15,140 @@
     <!-- Google Specific -->
     <title>GaryChang</title>
     <base target="_self" />
+    <style>
+      table,
+      tr,
+      th,
+      td {
+        border: 1px solid black;
+      }
+    </style>
+    <!--setup the favicon-->
+    <link rel="icon" href="../images/favicon.ico" />
   </head>
   <body>
     <h1>Hello from Nginx container -- Gary!!</h1>
-    <p><a href="https://htmlhead.dev/">HyperLink _P1</a></p>
+    <div>
+      <!--GET usually use in get information and is text-->
+
+      <form action="" method="get">
+        <!--if set up the id match the id then it will focus to label if click the label-->
+        <label for="email">Email</label>
+        <!--only when input set up the "name" will be send to back end-->
+        <input id="email" type="email" name="email" required />
+        <hr />
+        <label for="name">name</label>
+        <input
+          id="name"
+          type="text"
+          name="name"
+          minlength="5"
+          maxlength="20"
+          required
+          placeholder="please input real name"
+        />
+        <hr />
+
+        <!--radio user the name to identity -->
+        <label for="">Gender Select</label>
+        <input id="male" type="radio" name="gender" value="male" checked />
+        <label for="male">Man</label>
+        <input id="female" type="radio" name="gender" value="female" />
+        <label for="female">woman</label>
+        <input id="others" type="radio" name="gender" value="others" />
+        <label for="others">others</label>
+        <hr />
+
+        <label for="password">password</label>
+        <input id="password" type="password" name="password" />
+        <input type="checkbox" onclick="showPassword" id="show" />show
+        <hr />
+
+        <label for="age">Age</label>
+        <input id="age" type="number" name="age" min="0" max="125" step="0.5" />
+
+        <label for="education">Education level</label>
+        <select name="education" id="education" required>
+          <option value=""></option>
+          <option value="high_school">high school</option>
+          <option value="graduated">Graduated school</option>
+          <option value="others">others</option>
+        </select>
+        <label for="area">Country</label>
+        <input list="area-list" name="area" id="area" />
+
+        <datalist id="area-list">
+          <option value="canada">Canada</option>
+          <option value="usa">U.S.A</option>
+        </datalist>
+        <hr />
+
+        <label for="suggestion">any other suggestions</label>
+        <textarea
+          name="suggestion"
+          id="suggestion"
+          cols="15"
+          rows="5"
+          placeholder="have any suggestions?"
+        ></textarea>
+        <br />
+        <input id="rmbm" type="checkbox" name="remember" checked />
+        <label for="rmbm">remember me</label>
+        <button type="submit">Login</button>
+      </form>
+      <script>
+        let checkbox = document.querySelector("#show");
+        let password = document.querySelector("#password");
+        checkbox.addEventListener("click", () => {
+          if (password.type == "password") {
+            password.type = "text";
+          } else {
+            password.type = "password";
+          }
+        });
+      </script>
+    </div>
+    <div></div>
+    <div>
+      <p><a href="https://htmlhead.dev/">HyperLink _P1</a></p>
+      <h2>oder list</h2>
+      <ol>
+        <li>oder-1</li>
+        <li>oder-2</li>
+      </ol>
+    </div>
     <p><a href="https://htmlhead.dev/">HyperLink_P2</a></p>
+    <h2>un-order list</h2>
+    <ul>
+      <li>non-oder-1</li>
+      <li>non-oder-2</li>
+    </ul>
+    <h2>Basic Information</h2>
+    <table>
+      <!--Option-->
+      <thead>
+        <tr>
+          <th colspan="3">Student Information</th>
+        </tr>
+        <tr>
+          <th>user</th>
+          <th>semester</th>
+          <th>GPA</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Gary</td>
+          <td>1</td>
+          <td>4.0</td>
+        </tr>
+        <tr>
+          <td>Yen</td>
+          <td>2</td>
+          <td>3.7</td>
+        </tr>
+      </tbody>
+    </table>
     <img
       width="400"
       height="150"
@@ -27,4 +156,7 @@
       alt="Seneca College"
     />
   </body>
+  <hr />
+  <!--using the html entity index-->
+  <p>Gary Chang &#169; 2024</p>
 </html>
