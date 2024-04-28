@@ -15,19 +15,22 @@
     <!-- Google Specific -->
     <title>GaryChang</title>
     <base target="_self" />
-    <style>
-      table,
-      tr,
-      th,
-      td {
-        border: 1px solid black;
-      }
-    </style>
     <!--setup the favicon-->
-    <link rel="icon" href="../images/favicon.ico" />
+    <link rel="icon" href="./images/favicon.ico" />
+    <link rel="stylesheet" href="./style.css " />
   </head>
   <body>
     <h1>Hello from Nginx container -- Gary!!</h1>
+    <div>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit,
+        doloremque omnis assumenda debitis magni labore, magnam aliquam ut minus
+        ratione itaque quasi alias provident quam nihil deserunt, ipsam at
+        tempora tenetur quos beatae. Error, officiis labore numquam, voluptatum
+        ducimus iusto sunt sed animi quia dolorum tenetur distinctio, cum neque
+        velit.
+      </p>
+    </div>
     <div>
       <!--GET usually use in get information and is text-->
 
@@ -64,10 +67,10 @@
         <input type="checkbox" onclick="showPassword" id="show" />show
         <hr />
 
-        <label for="age">Age</label>
+        <label for="age" class="blue-text large-text">Age</label>
         <input id="age" type="number" name="age" min="0" max="125" step="0.5" />
 
-        <label for="education">Education level</label>
+        <label for="education" class="large-text">Education level</label>
         <select name="education" id="education" required>
           <option value=""></option>
           <option value="high_school">high school</option>
@@ -110,7 +113,9 @@
     </div>
     <div></div>
     <div>
-      <p><a href="https://htmlhead.dev/">HyperLink _P1</a></p>
+      <p>
+        <a href="https://htmlhead.dev/" class="large-text">HyperLink _P1</a>
+      </p>
       <h2>oder list</h2>
       <ol>
         <li>oder-1</li>
@@ -152,9 +157,16 @@
     <img
       width="400"
       height="150"
-      src="../images/seneca.png"
+      src="./images/seneca.png"
       alt="Seneca College"
     />
+    <h3>relative page</h3>
+    <div class="link1">
+      <a href="google.com">Google</a>
+    </div>
+    <div class="link2">
+      <a href="./images/seneca.png">Go to image</a>
+    </div>
   </body>
   <hr />
   <!--using the html entity index-->
