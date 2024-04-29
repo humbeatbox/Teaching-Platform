@@ -4,7 +4,11 @@ h1 {
 h2 {
   color: #000000;
 }
-
+/*personal font*/
+@font-face {
+  font-family: "myCustom";
+  src: url(./JetBrainsMono-Regular.woff2);
+}
 /*universal selector*/
 /*
 * {
@@ -66,7 +70,12 @@ p::before {
 }
 p::first-line {
   font-size: 20px;
+  font-family: myCustom;
 }
 *::selection {
   color: rgb(109, 234, 146);
+}
+
+body {
+  font-family: "myCustom", monospace;
 }
