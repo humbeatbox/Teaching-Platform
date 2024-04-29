@@ -78,4 +78,8 @@ p::first-line {
 
 body {
   font-family: "myCustom", monospace;
+  background-image: url(./images/torontoSkyline.jpg);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: mid;
 }
