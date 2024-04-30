@@ -1,5 +1,9 @@
 h1 {
   color: rgba(0, 76, 255, 0.8);
+  background-color: blueviolet;
+  border: solid;
+  padding: 10px 20px 30px 40px;
+  border-radius: 10px;
 }
 h2 {
   color: #000000;
@@ -49,6 +53,7 @@ h3 {
 /*because of DOM Tree */
 div.link1 a {
   color: red;
+  width: 50%;
 }
 div.link2 a {
   color: green;
