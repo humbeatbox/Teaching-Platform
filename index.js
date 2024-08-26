@@ -8,7 +8,7 @@ const authRoute = require("./routes/").auth;
 
 // Connect to DB
 mongoose
-  .connect("mongodb://localhost:27017/courseDB")
+  .connect("mongodb://localhost:27017/mernDB")
   .then(() => {
     console.log("Connected to DB");
   })
