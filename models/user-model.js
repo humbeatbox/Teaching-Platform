@@ -36,6 +36,15 @@ userSchema.methods.isCustomer = function () {
   return this.role == "student";
 };
 
+//for mongoose handle password hashing
+userSchema.pre("save", async function (next) {
+  if (this.isNew || this.isModified("password")) {
+    const hashValue = await bcrypt.hash(this.password, 16);
+    this.password = hashValue;
+  }
+  next();
+});
+
 // static methods for checking user password
 userSchema.methods.comparePassword = async function (password, callBack) {
   let result;
