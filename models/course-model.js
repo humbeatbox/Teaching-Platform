@@ -15,7 +15,7 @@ const courseSchema = new Schema({
     type: Number,
     required: true,
   },
-  sealer: {
+  instructor: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },

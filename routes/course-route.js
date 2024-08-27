@@ -1,10 +1,60 @@
 const router = require("express").Router();
 const Course = require("../models").course;
 const courseValidation = require("../validation").courseValidation;
+const mongoose = require("mongoose");
 
 router.use((req, res, next) => {
   console.log("course route is connected...");
   next();
+});
+
+//Bellow is REASTful API
+//validate the course id
+const validateObjectId = (req, res, next) => {
+  const { _id } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(_id)) {
+    return res.status(400).send("Invalid course ID");
+  }
+  next();
+};
+const findCourseById = async (req, res, next) => {
+  const { _id } = req.params;
+  try {
+    let courseFound = await Course.findById(_id);
+    if (!courseFound) {
+      return res.status(404).send("Can not find the course");
+    }
+    req.course = courseFound;
+    next();
+  } catch (e) {
+    next(e);
+  }
+};
+// get all courses
+router.get("/", async (req, res) => {
+  try {
+    let courseFound = await Course.find({})
+      .populate("instructor", ["username", "email"])
+      .exec();
+    return res.send(courseFound);
+  } catch (e) {
+    // return res.status(5000).send(e);
+    next(e);
+  }
+});
+
+// use course id to get course
+router.get("/:_id", validateObjectId, findCourseById, async (req, res) => {
+  let { _id } = req.params;
+  // check if the course id is valid
+  try {
+    let courseFound = await Course.findById(_id)
+      .populate("instructor", ["email"])
+      .exec();
+    return res.send(courseFound);
+  } catch (e) {
+    next(e);
+  }
 });
 
 //create a new course
@@ -21,6 +71,11 @@ router.post("/", async (req, res) => {
 
   let { title, description, price } = req.body;
   try {
+    let existingCourse = await Course.findOne({ title });
+    // check if the course already exists by title
+    if (existingCourse) {
+      return res.status(400).send("Course with the same title already exists.");
+    }
     let newCourse = new Course({
       title,
       description,
@@ -30,9 +85,148 @@ router.post("/", async (req, res) => {
     let savedCourse = await newCourse.save();
     return res.send("Course created successfully");
   } catch (e) {
-    // return res status(500 ).send(e); // for debugging
-    return res.status(500).send("Failed to create a new course");
+    res.status(201).send({
+      message: "Course created successfully",
+      course: savedCourse,
+    });
   }
+});
+
+// patch a course by id (change course content)
+router.patch("/:_id", validateObjectId, findCourseById, async (req, res) => {
+  // check new course content is valid
+  let { error } = courseValidation(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
+
+  //   let { _id } = req.params;
+  //   // check the course exists or not
+  //   try {
+  //     // let courseFound = await Course.findOne({ _id });
+  //     let courseFound = await Course.findById(_id);
+
+  //     // only the instructor of the course can update the course
+  //     if (courseFound.instructor.equals(req.user._id)) {
+  //       //   console.log("courseFound.instructor", courseFound.instructor);
+  //       let updatedCourse = await Course.findByIdAndUpdate(_id, req.body, {
+  //         new: true,
+  //         runValidators: true,
+  //       });
+  //       return res.send({
+  //         message: "Course updated successfully",
+  //         updatedCourse,
+  //       });
+  //     } else {
+  //       return res
+  //         .status(403)
+  //         .send("Only the instructor of this course can update the course");
+  //     }
+  //   } catch (e) {
+  //     //return res.status(500).send(e);
+  //     next(e);
+  //   }
+  if (req.course.instructor.equals(req.user._id)) {
+    let updatedCourse = await Course.findByIdAndUpdate(
+      req.course._id,
+      req.body,
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+    return res.status(200).send({
+      message: "Course updated successfully",
+      updatedCourse,
+    });
+  } else {
+    return res
+      .status(403)
+      .send("Only the instructor of this course can update the course");
+  }
+});
+
+// update a course by id (replace course content)
+router.put("/:_id", validateObjectId, findCourseById, async (req, res) => {
+  let { error } = courseValidation(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
+  //   let { _id } = req.params;
+
+  //   try {
+  //     let courseFound = await Course.findById(_id);
+  //     // check if the user is the instructor of the course
+  //     if (courseFound.instructor.equals(req.user._id)) {
+  //       // use the new content to replace the existing course
+  //       let updatedCourse = await Course.findByIdAndUpdate(_id, req.body, {
+  //         new: true,
+  //         runValidators: true,
+  //         overwrite: true,
+  //       });
+  //       return res.status(201).send({
+  //         message: "Course updated successfully",
+  //         updatedCourse,
+  //       });
+  //     } else {
+  //       return res
+  //         .status(403)
+  //         .send("Only the instructor of this course can update the course");
+  //     }
+  //   } catch (e) {
+  //     next(e);
+  //   }
+  if (req.course.instructor.equals(req.user._id)) {
+    let updatedCourse = await Course.findByIdAndUpdate(
+      req.course._id,
+      req.body,
+      {
+        new: true,
+        runValidators: true,
+        overwrite: true,
+      }
+    );
+    return res.status(200).send({
+      message: "Course updated successfully",
+      updatedCourse,
+    });
+  } else {
+    return res
+      .status(403)
+      .send("Only the instructor of this course can update the course");
+  }
+});
+// delete a course by id
+router.delete("/:_id", validateObjectId, findCourseById, async (req, res) => {
+  //   let { _id } = req.params;
+  //   try {
+  //     // let courseFound = await Course.findOne({ _id }).exec();
+  //     let courseFound = await Course.findById(_id).exec();
+
+  //     // only the instructor of the course can delete the course
+  //     if (courseFound.instructor.equals(req.user._id)) {
+  //       //delete the course
+  //       await Course.deleteOne({ _id }).exec();
+  //       return res.send("Course deleted successfully");
+  //     } else {
+  //       return res
+  //         .status(403)
+  //         .send("Only the instructor of this course can delete the course");
+  //     }
+  //   } catch (e) {
+  //     next(e);
+  //   }
+  if (req.course.instructor.equals(req.user._id)) {
+    await Course.deleteOne({ _id: req.course._id }).exec();
+    return res.status(200).send("Course deleted successfully");
+  } else {
+    return res
+      .status(403)
+      .send("Only the instructor of this course can delete the course");
+  }
+});
+
+//error handling
+router.use((err, req, res, next) => {
+  //   console.error(err.stack);
+  console.error(`Error occurred in ${req.method} ${req.url} - ${err.stack}`);
+  res.status(500).send("Something Wrong!");
 });
 
 module.exports = router;
