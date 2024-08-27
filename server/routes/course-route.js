@@ -9,6 +9,7 @@ router.use((req, res, next) => {
 });
 
 //Bellow is REASTful API
+
 //validate the course id
 const validateObjectId = (req, res, next) => {
   const { _id } = req.params;
@@ -17,6 +18,7 @@ const validateObjectId = (req, res, next) => {
   }
   next();
 };
+//find course by id
 const findCourseById = async (req, res, next) => {
   const { _id } = req.params;
   try {
@@ -97,33 +99,6 @@ router.patch("/:_id", validateObjectId, findCourseById, async (req, res) => {
   // check new course content is valid
   let { error } = courseValidation(req.body);
   if (error) return res.status(400).send(error.details[0].message);
-
-  //   let { _id } = req.params;
-  //   // check the course exists or not
-  //   try {
-  //     // let courseFound = await Course.findOne({ _id });
-  //     let courseFound = await Course.findById(_id);
-
-  //     // only the instructor of the course can update the course
-  //     if (courseFound.instructor.equals(req.user._id)) {
-  //       //   console.log("courseFound.instructor", courseFound.instructor);
-  //       let updatedCourse = await Course.findByIdAndUpdate(_id, req.body, {
-  //         new: true,
-  //         runValidators: true,
-  //       });
-  //       return res.send({
-  //         message: "Course updated successfully",
-  //         updatedCourse,
-  //       });
-  //     } else {
-  //       return res
-  //         .status(403)
-  //         .send("Only the instructor of this course can update the course");
-  //     }
-  //   } catch (e) {
-  //     //return res.status(500).send(e);
-  //     next(e);
-  //   }
   if (req.course.instructor.equals(req.user._id)) {
     let updatedCourse = await Course.findByIdAndUpdate(
       req.course._id,
@@ -148,30 +123,7 @@ router.patch("/:_id", validateObjectId, findCourseById, async (req, res) => {
 router.put("/:_id", validateObjectId, findCourseById, async (req, res) => {
   let { error } = courseValidation(req.body);
   if (error) return res.status(400).send(error.details[0].message);
-  //   let { _id } = req.params;
 
-  //   try {
-  //     let courseFound = await Course.findById(_id);
-  //     // check if the user is the instructor of the course
-  //     if (courseFound.instructor.equals(req.user._id)) {
-  //       // use the new content to replace the existing course
-  //       let updatedCourse = await Course.findByIdAndUpdate(_id, req.body, {
-  //         new: true,
-  //         runValidators: true,
-  //         overwrite: true,
-  //       });
-  //       return res.status(201).send({
-  //         message: "Course updated successfully",
-  //         updatedCourse,
-  //       });
-  //     } else {
-  //       return res
-  //         .status(403)
-  //         .send("Only the instructor of this course can update the course");
-  //     }
-  //   } catch (e) {
-  //     next(e);
-  //   }
   if (req.course.instructor.equals(req.user._id)) {
     let updatedCourse = await Course.findByIdAndUpdate(
       req.course._id,
@@ -194,24 +146,6 @@ router.put("/:_id", validateObjectId, findCourseById, async (req, res) => {
 });
 // delete a course by id
 router.delete("/:_id", validateObjectId, findCourseById, async (req, res) => {
-  //   let { _id } = req.params;
-  //   try {
-  //     // let courseFound = await Course.findOne({ _id }).exec();
-  //     let courseFound = await Course.findById(_id).exec();
-
-  //     // only the instructor of the course can delete the course
-  //     if (courseFound.instructor.equals(req.user._id)) {
-  //       //delete the course
-  //       await Course.deleteOne({ _id }).exec();
-  //       return res.send("Course deleted successfully");
-  //     } else {
-  //       return res
-  //         .status(403)
-  //         .send("Only the instructor of this course can delete the course");
-  //     }
-  //   } catch (e) {
-  //     next(e);
-  //   }
   if (req.course.instructor.equals(req.user._id)) {
     await Course.deleteOne({ _id: req.course._id }).exec();
     return res.status(200).send("Course deleted successfully");

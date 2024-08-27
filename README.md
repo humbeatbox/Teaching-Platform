@@ -1,4 +1,6 @@
-# Retail
+# Retail PlatForm
+
+## Server-side
 
 ```
 sudo npm install express dotenv bcrypt mongoose joi
@@ -17,3 +19,19 @@ sudo npm install jsonwebtoken passport passport-jwt passport-local
 add the ".env" in local folder
 include the key
 PASSPORT_SECRET=
+
+REACTful API
+
+```
+sudo npm install cors
+```
+
+## Client-side
+
+```
+npx create-react-app client
+```
+
+```
+sudo npm install react-router-dom
+```

@@ -10,6 +10,8 @@ const CourseRoute = require("./routes/").course;
 const passport = require("passport");
 require("./config/passport")(passport); //will call the function in passport.js
 
+const cors = require("cors");
+
 // Connect to DB
 mongoose
   .connect("mongodb://localhost:27017/mernDB")
@@ -24,6 +26,7 @@ mongoose
 //middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 // Route Middlewares
 app.use("/api/user", authRoute);
