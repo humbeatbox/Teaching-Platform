@@ -35,3 +35,7 @@ npx create-react-app client
 ```
 sudo npm install react-router-dom
 ```
+
+```
+sudo npm install axios
+```
