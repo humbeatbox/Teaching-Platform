@@ -14,6 +14,6 @@ implement the JWT work with passport package (passport-jwt, passport-local, pass
 sudo npm install jsonwebtoken passport passport-jwt passport-local
 ```
 
-add the .env in local folder
+add the ".env" in local folder
 include the key
 PASSPORT_SECRET=

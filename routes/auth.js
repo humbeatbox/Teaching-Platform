@@ -53,14 +53,6 @@ router.post("/login", async (req, res) => {
   const foundUser = await User.findOne({ email: req.body.email });
   if (!foundUser) return res.status(400).send("Can not find the User");
 
-  //check the password is correct
-  //   if (foundUser.password !== req.body.password)
-  //     return res.status(400).send("Invalid password");
-
-  //create and assign a token
-  //   let token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
-  //   res.header("auth-token", token).send(token);
-
   //use comparePassword method in user model
   foundUser.comparePassword(req.body.password, (err, isMatch) => {
     if (err) return res.status(500).send(err);
@@ -69,19 +61,16 @@ router.post("/login", async (req, res) => {
       // create json web token
       const tokenObject = { _id: foundUser._id, email: foundUser.email };
       const token = jwt.sign(tokenObject, process.env.PASSPORT_SECRET);
-      console.log("token: ", token);
       return res.send({
-        msg: "Successfully logged in",
-        // message: "successfully logged in",
-        // token: "JWT " + token, //need the space before JWT
-        // user: foundUser,
+        message: "successfully logged in",
+        token: "JWT " + token, //need the space before JWT
+        user: foundUser,
       });
     } else {
       //   return res.status(401).send("Invalid password");
       console.log("compare password failed");
       return res.status(401).send("Please check your email and password!");
     }
-    console.log("end of compare password");
   });
 });
 

@@ -21,19 +21,20 @@ const userSchema = new mongoose.Schema({
   role: {
     type: String,
     required: true,
-    enum: ["student", "teacher"],
+    enum: ["student", "instructor"],
     default: "student",
   },
   Date: { type: Date, default: Date.now },
 });
 
 // instance methods
-userSchema.methods.isSealer = function () {
-  return this.role == "teacher";
+userSchema.methods.isStudent = function () {
+  console.log("isStudent");
+  return this.role == "student";
 };
 
-userSchema.methods.isCustomer = function () {
-  return this.role == "student";
+userSchema.methods.isInstructor = function () {
+  return this.role == "instructor";
 };
 
 //for mongoose handle password hashing
