@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import AuthService from "../services/auth.service";
 const RegisterComponent = () => {
+  const navigate = useNavigate();
   let [username, setUsername] = useState("");
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
@@ -19,10 +21,13 @@ const RegisterComponent = () => {
   const handleRole = (e) => {
     setRole(e.target.value);
   };
+
   const handleRegister = () => {
     AuthService.register(username, email, password, role)
       .then(() => {
         window.alert("Register successfully");
+        // navigate to login page
+        navigate("/login");
       })
       .catch((e) => {
         setMessage(e.response.data);
@@ -31,6 +36,7 @@ const RegisterComponent = () => {
   return (
     <div style={{ padding: "3rem" }} className="col-md-12">
       <div>
+        {message && <div className="alert alert-danger">{message}</div>}
         <div>
           <label htmlFor="username">Username : </label>
           <input
