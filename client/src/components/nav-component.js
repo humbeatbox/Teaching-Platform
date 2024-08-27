@@ -1,7 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import AuthService from "../services/auth.service";
 
-const NavComponent = () => {
+const NavComponent = ({ currentUser, setCurrentUser }) => {
+  const handleLogout = () => {
+    AuthService.logout(); // clear local storage
+    window.alert("Logout successfully");
+  };
+
   return (
     <div>
       <nav>
@@ -40,13 +46,6 @@ const NavComponent = () => {
                 </li>
 
                 <li className="nav-item">
-                  {/* <Link onClick={handleLogout} className="nav-link" to="/"> */}
-                  <Link className="nav-link" to="/">
-                    Log out
-                  </Link>
-                </li>
-
-                <li className="nav-item">
                   <Link className="nav-link" to="/profile">
                     Personal Page
                   </Link>
@@ -67,6 +66,11 @@ const NavComponent = () => {
                 <li className="nav-item">
                   <Link className="nav-link" to="/enroll">
                     Enroll Course
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link onClick={handleLogout} className="nav-link" to="/">
+                    Log out
                   </Link>
                 </li>
               </ul>
