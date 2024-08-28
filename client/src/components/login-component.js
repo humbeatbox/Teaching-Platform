@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthService from "../services/auth.service";
 
-const LoginComponent = (props) => {
+const LoginComponent = ({ currentUser, setCurrentUser }) => {
   const navigate = useNavigate();
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
@@ -21,6 +21,7 @@ const LoginComponent = (props) => {
       // console.log(response.data);
       localStorage.setItem("user", JSON.stringify(response.data));
       window.alert("Login successfully");
+      setCurrentUser(AuthService.getCurrentUser());
       navigate("/profile");
     } catch (e) {
       setMessage(e.response.data);

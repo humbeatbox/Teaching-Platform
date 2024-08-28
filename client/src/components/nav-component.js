@@ -6,6 +6,7 @@ const NavComponent = ({ currentUser, setCurrentUser }) => {
   const handleLogout = () => {
     AuthService.logout(); // clear local storage
     window.alert("Logout successfully");
+    setCurrentUser(null);
   };
 
   return (
@@ -32,47 +33,55 @@ const NavComponent = ({ currentUser, setCurrentUser }) => {
                     Home Page
                   </Link>
                 </li>
-
-                <li className="nav-item">
-                  <Link className="nav-link" to="/register">
-                    Register
-                  </Link>
-                </li>
-
-                <li className="nav-item">
-                  <Link className="nav-link" to="/login">
-                    Log in
-                  </Link>
-                </li>
-
-                <li className="nav-item">
-                  <Link className="nav-link" to="/profile">
-                    Personal Page
-                  </Link>
-                </li>
-
-                <li className="nav-item">
-                  <Link className="nav-link" to="/course">
-                    Course Page
-                  </Link>
-                </li>
-
-                <li className="nav-item">
-                  <Link className="nav-link" to="/postCourse">
-                    Add New Course
-                  </Link>
-                </li>
-
-                <li className="nav-item">
-                  <Link className="nav-link" to="/enroll">
-                    Enroll Course
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link onClick={handleLogout} className="nav-link" to="/">
-                    Log out
-                  </Link>
-                </li>
+                {!currentUser && (
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/register">
+                      Register
+                    </Link>
+                  </li>
+                )}
+                {!currentUser && (
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/login">
+                      Log in
+                    </Link>
+                  </li>
+                )}
+                {currentUser && (
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/profile">
+                      Personal Page
+                    </Link>
+                  </li>
+                )}
+                {currentUser && (
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/course">
+                      Course Page
+                    </Link>
+                  </li>
+                )}
+                {currentUser && currentUser.user.role === "instructor" && (
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/postCourse">
+                      Add New Course
+                    </Link>
+                  </li>
+                )}
+                {currentUser && currentUser.user.role === "student" && (
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/enroll">
+                      Enroll Course
+                    </Link>
+                  </li>
+                )}
+                {currentUser && (
+                  <li className="nav-item">
+                    <Link onClick={handleLogout} className="nav-link" to="/">
+                      Log out
+                    </Link>
+                  </li>
+                )}
               </ul>
             </div>
           </div>

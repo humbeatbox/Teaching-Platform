@@ -13,9 +13,9 @@ const HomeComponent = () => {
               Project, it is one of the most popular ways to create modern
               websites.
             </p>
-            <button className="btn btn-primary btn-lg" type="button">
+            {/* <button className="btn btn-primary btn-lg" type="button">
               See how it works.
-            </button>
+            </button> */}
           </div>
         </div>
 
