@@ -38,7 +38,7 @@ const CourseComponent = ({ currentUser, setCurrentUser }) => {
     <div style={{ padding: "3rem" }}>
       {!currentUser && (
         <div>
-          <p>You ust login !</p>
+          <p>You should login !</p>
           <button
             className="btn btn-primary btn-lg"
             onClick={handleTakeToLogin}

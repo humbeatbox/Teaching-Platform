@@ -39,6 +39,7 @@ const EnrollComponent = (props) => {
       handleSearch();
     }
   };
+
   return (
     <div style={{ padding: "3rem" }}>
       {!currentUser && (
@@ -82,14 +83,27 @@ const EnrollComponent = (props) => {
                 <p>Price : {course.price}</p>
                 <p>Number of students : {course.students.length}</p>
                 <p>Instructor : {course.instructor.username}</p>
-                <button
-                  href="#"
-                  onClick={handleEnroll}
-                  className="card-text btn btn-primary"
-                  id={course._id}
-                >
-                  Enroll
-                </button>
+                <p>{course._id}</p>
+                {course.students.includes(currentUser.user._id) ? (
+                  // <button
+                  //   href="#"
+                  //   onClick={handleEnroll}
+                  //   className="card-text btn btn-primary"
+                  //   id={course._id}
+                  // >
+                  //   XXX
+                  // </button>
+                  <p>Already Enroll~</p>
+                ) : (
+                  <button
+                    href="#"
+                    onClick={handleEnroll}
+                    className="card-text btn btn-primary"
+                    id={course._id}
+                  >
+                    Enroll
+                  </button>
+                )}
               </div>
             </div>
           ))}

@@ -197,4 +197,15 @@ router.get("/findByName/:name", async (req, res) => {
     return res.status(500).send(e);
   }
 });
+
+router.post("/enroll/:_id", findCourseById, async (req, res) => {
+  try {
+    req.course.students.push(req.user._id);
+    await req.course.save();
+    return res.send("Enrolled successfully");
+  } catch (e) {
+    return res.send(e);
+  }
+});
+
 module.exports = router;
