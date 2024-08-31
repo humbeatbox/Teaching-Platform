@@ -187,7 +187,9 @@ router.get("/student/:_student_id", async (req, res) => {
 router.get("/findByName/:name", async (req, res) => {
   let { name } = req.params;
   try {
-    let courseFound = await Course.find({ title: name })
+    let courseFound = await Course.find({
+      title: { $regex: name, $options: "i" },
+    })
       .populate("instructor", ["email", "username"])
       .exec();
     return res.send(courseFound);

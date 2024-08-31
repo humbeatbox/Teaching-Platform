@@ -28,6 +28,12 @@ const LoginComponent = ({ currentUser, setCurrentUser }) => {
     }
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleLogin();
+    }
+  };
   return (
     <div style={{ padding: "3rem" }} className="col-md-12">
       <div>
@@ -46,6 +52,7 @@ const LoginComponent = ({ currentUser, setCurrentUser }) => {
           <label htmlFor="password">Password : </label>
           <input
             onChange={handleChangePassword}
+            onKeyDown={handleKeyDown}
             type="password"
             className="form-control"
             name="password"
