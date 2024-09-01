@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthService from "../services/auth.service";
 
-const LoginComponent = ({ currentUser, setCurrentUser }) => {
+const LoginComponent = ({ currentUser, setCurrentUser, apiUrl }) => {
   const navigate = useNavigate();
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
@@ -17,7 +17,7 @@ const LoginComponent = ({ currentUser, setCurrentUser }) => {
 
   const handleLogin = async () => {
     try {
-      let response = await AuthService.login(email, password);
+      let response = await AuthService.login(email, password, apiUrl);
       // console.log(response.data);
       localStorage.setItem("user", JSON.stringify(response.data));
       window.alert("Login successfully");

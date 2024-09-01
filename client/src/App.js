@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 import HomeComponent from "./components/home-component";
@@ -9,8 +9,25 @@ import AuthService from "./services/auth.service";
 import CourseComponent from "./components/course-component";
 import PostCourseComponent from "./components/postCourse-component";
 import EnrollComponent from "./components/enroll-component";
+
+import axios from "axios";
 function App() {
   let [currentUser, setCurrentUser] = useState(AuthService.getCurrentUser());
+
+  const [apiUrl, setApiUrl] = useState("");
+
+  useEffect(() => {
+    const fetchApiUrl = async () => {
+      try {
+        const response = await axios.get("/config");
+        //console.log("Fetched apiUrl:", response.data.apiUrl);
+        setApiUrl(response.data.apiUrl);
+      } catch (error) {
+        console.error("Error fetching API URL:", error);
+      }
+    };
+    fetchApiUrl();
+  }, []);
 
   return (
     <BrowserRouter>
@@ -22,13 +39,17 @@ function App() {
           }
         >
           <Route index element={<HomeComponent />}></Route>
-          <Route path="/register" element={<RegisterComponent />}></Route>
+          <Route
+            path="/register"
+            element={<RegisterComponent apiUrl={apiUrl} />}
+          ></Route>
           <Route
             path="/login"
             element={
               <LoginComponent
                 currentUser={currentUser}
                 setCurrentUser={setCurrentUser}
+                apiUrl={apiUrl}
               />
             }
           ></Route>
@@ -47,6 +68,7 @@ function App() {
               <CourseComponent
                 currentUser={currentUser}
                 setCurrentUser={setCurrentUser}
+                apiUrl={apiUrl}
               />
             }
           ></Route>
@@ -56,6 +78,7 @@ function App() {
               <PostCourseComponent
                 currentUser={currentUser}
                 setCurrentUser={setCurrentUser}
+                apiUrl={apiUrl}
               />
             }
           ></Route>
@@ -65,6 +88,7 @@ function App() {
               <EnrollComponent
                 currentUser={currentUser}
                 setCurrentUser={setCurrentUser}
+                apiUrl={apiUrl}
               />
             }
           ></Route>

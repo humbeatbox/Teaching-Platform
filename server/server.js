@@ -4,8 +4,8 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 dotenv.config();
 
-const authRoute = require("./routes/").auth;
-const CourseRoute = require("./routes/").course;
+const authRoute = require("./routes").auth;
+const CourseRoute = require("./routes").course;
 
 const passport = require("passport");
 require("./config/passport")(passport); //will call the function in passport.js
@@ -14,7 +14,7 @@ const cors = require("cors");
 
 // Connect to DB
 mongoose
-  .connect("mongodb://localhost:27017/mernDB")
+  .connect(process.env.MONGODB_CONNECTION)
   .then(() => {
     console.log("Connected to DB");
   })
@@ -42,6 +42,17 @@ app.use(
   CourseRoute
 );
 
+//for use the config in react(set the environment variable)
+app.get("/config", (req, res) => {
+  res.json({ apiUrl: process.env.API_URL });
+});
+// Serve static assets for react in production
+const path = require("path");
+app.use(express.static(path.join(__dirname, "client/build")));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client/build", "index.html"));
+});
+//
 app.listen(8080, () => {
   console.log("Server is running on port 8080");
 });

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import CourseService from "../services/course.service";
 
 const EnrollComponent = (props) => {
-  let { currentUser, setCurrentUser } = props;
+  let { currentUser, setCurrentUser, apiUrl } = props;
   const navigate = useNavigate();
   let [searchInput, setSearchInput] = useState("");
   let [searchResult, setSearchResult] = useState(null);
@@ -14,7 +14,7 @@ const EnrollComponent = (props) => {
     setSearchInput(e.target.value);
   };
   const handleSearch = () => {
-    CourseService.getCourseByName(searchInput)
+    CourseService.getCourseByName(searchInput, apiUrl)
       .then((data) => {
         console.log(data);
         setSearchResult(data.data);
@@ -24,7 +24,7 @@ const EnrollComponent = (props) => {
       });
   };
   const handleEnroll = (e) => {
-    CourseService.enroll(e.target.id)
+    CourseService.enroll(e.target.id, apiUrl)
       .then(() => {
         window.alert("Enrolled successfully");
         navigate("/course");

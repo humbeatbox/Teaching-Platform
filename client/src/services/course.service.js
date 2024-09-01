@@ -1,8 +1,8 @@
 import axios from "axios";
-const API_URL = "http://localhost:8080/api/courses";
+// const API_URL = "http://localhost:8080/api/courses";
 
 class CourseService {
-  post(title, description, price) {
+  post(title, description, price, apiUrl) {
     let token;
     if (localStorage.getItem("user")) {
       token = JSON.parse(localStorage.getItem("user")).token;
@@ -11,7 +11,7 @@ class CourseService {
     }
     //will return a promise
     return axios.post(
-      API_URL,
+      `${apiUrl}/courses`,
       { title, description, price },
       {
         headers: {
@@ -23,7 +23,7 @@ class CourseService {
   }
 
   //use student id to get the courses that student enrolled
-  getEnrolledCourses(_id) {
+  getEnrolledCourses(_id, apiUrl) {
     let token;
     if (localStorage.getItem("user")) {
       token = JSON.parse(localStorage.getItem("user")).token;
@@ -31,7 +31,7 @@ class CourseService {
       token = "";
     }
 
-    return axios.get(API_URL + "/student/" + _id, {
+    return axios.get(`${apiUrl}/courses/student/` + _id, {
       headers: {
         Authorization: token,
       },
@@ -39,7 +39,7 @@ class CourseService {
   }
 
   // use instructor id to get the courses that instructor created
-  getCourseByInstructorId(_id) {
+  getCourseByInstructorId(_id, apiUrl) {
     let token;
     if (localStorage.getItem("user")) {
       token = JSON.parse(localStorage.getItem("user")).token;
@@ -47,14 +47,14 @@ class CourseService {
       token = "";
     }
 
-    return axios.get(API_URL + "/instructor/" + _id, {
+    return axios.get(`${apiUrl}/courses/instructor/${_id}`, {
       headers: {
         Authorization: token,
       },
     });
   }
 
-  getCourseByName(name) {
+  getCourseByName(name, apiUrl) {
     let token;
     if (localStorage.getItem("user")) {
       token = JSON.parse(localStorage.getItem("user")).token;
@@ -62,14 +62,14 @@ class CourseService {
       token = "";
     }
 
-    return axios.get(API_URL + "/findByName/" + name, {
+    return axios.get(`${apiUrl}/courses/findByName/` + name, {
       headers: {
         Authorization: token,
       },
     });
   }
 
-  enroll(_id) {
+  enroll(_id, apiUrl) {
     let token;
     if (localStorage.getItem("user")) {
       token = JSON.parse(localStorage.getItem("user")).token;
@@ -78,7 +78,7 @@ class CourseService {
     }
 
     return axios.post(
-      API_URL + "/enroll/" + _id,
+      `${apiUrl}/courses/enroll/` + _id,
       {},
       {
         headers: {

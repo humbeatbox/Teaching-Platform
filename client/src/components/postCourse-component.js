@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import CourseService from "../services/course.service";
 
 const PostCourseComponent = (props) => {
-  let { currentUser, setCurrentUser } = props;
+  let { currentUser, setCurrentUser, apiUrl } = props;
   let [title, setTitle] = useState("");
   let [description, setDescription] = useState("");
   let [price, setPrice] = useState(0);
@@ -22,7 +22,7 @@ const PostCourseComponent = (props) => {
     setPrice(e.target.value);
   };
   const postCourse = () => {
-    CourseService.post(title, description, price)
+    CourseService.post(title, description, price, apiUrl)
       .then(() => {
         window.alert("Course posted successfully");
         navigate("/course");

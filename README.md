@@ -39,3 +39,12 @@ sudo npm install react-router-dom
 ```
 sudo npm install axios
 ```
+
+use server to run the react
+run the command in client director
+
+```
+npm run build
+```
+
+move to /Teaching-Platform/server/client directory

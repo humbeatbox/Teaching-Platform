@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import CourseService from "../services/course.service";
 
-const CourseComponent = ({ currentUser, setCurrentUser }) => {
+const CourseComponent = ({ currentUser, setCurrentUser, apiUrl }) => {
   const navigate = useNavigate();
   const handleTakeToLogin = () => {
     navigate("/login");
@@ -14,25 +14,38 @@ const CourseComponent = ({ currentUser, setCurrentUser }) => {
       _id = currentUser.user._id;
       // check if the user is instructor or student
       if (currentUser.user.role === "instructor") {
-        CourseService.getCourseByInstructorId(_id)
+        CourseService.getCourseByInstructorId(_id, apiUrl)
           .then((data) => {
             setCourseData(data.data);
+            console.log(data);
+            // if (Array.isArray(data.data)) {
+            //   setCourseData(data.data);
+            // } else {
+            //   console.error("Expected an array but got:", data.data);
+            //   setCourseData([]);
+            // }
           })
           .catch((e) => {
             console.log(e);
           });
       } else if (currentUser.user.role === "student") {
-        CourseService.getEnrolledCourses(_id)
+        CourseService.getEnrolledCourses(_id, apiUrl)
           .then((data) => {
             // console.log(data);
-            setCourseData(data.data);
+            // setCourseData(data.data);
+            if (Array.isArray(data.data)) {
+              setCourseData(data.data);
+            } else {
+              console.error("Expected an array but got:", data.data);
+              setCourseData([]);
+            }
           })
           .catch((e) => {
             console.log(e);
           });
       }
     }
-  }, [currentUser]);
+  }, [apiUrl, currentUser]);
 
   return (
     <div style={{ padding: "3rem" }}>

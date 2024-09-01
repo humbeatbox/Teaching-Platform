@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthService from "../services/auth.service";
-const RegisterComponent = () => {
+const RegisterComponent = ({ apiUrl }) => {
   const navigate = useNavigate();
   let [username, setUsername] = useState("");
   let [email, setEmail] = useState("");
@@ -23,7 +23,7 @@ const RegisterComponent = () => {
   };
 
   const handleRegister = () => {
-    AuthService.register(username, email, password, role)
+    AuthService.register(username, email, password, role, apiUrl)
       .then(() => {
         window.alert("Register successfully");
         // navigate to login page
