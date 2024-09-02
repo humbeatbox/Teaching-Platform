@@ -62,3 +62,5 @@ chmod +x ./install
 sudo ./install auto
 sudo service codedeploy-agent start
 ```
+
+set up appspect.yml
