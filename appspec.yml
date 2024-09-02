@@ -1,12 +1,5 @@
-version: 0.0
 os: linux
-files:
-  - source: /
-    destination: /home/ec2-user/Teaching-Platform
-
 hooks:
   AfterInstall:
-    - runas: ec2-user
-      script: chmod +x /home/ec2-user/Teaching-Platform/scripts/post-deploy.sh
     - location: scripts/post-deploy.sh
       runas: ec2-user
