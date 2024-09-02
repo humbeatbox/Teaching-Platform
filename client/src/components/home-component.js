@@ -1,6 +1,12 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const HomeComponent = () => {
+  const navigate = useNavigate();
+  const handleOnClickbtn = () => {
+    navigate("/login");
+  };
+
   return (
     <main>
       <div className="container py-4">
@@ -28,7 +34,11 @@ const HomeComponent = () => {
                 for practice purposes only, please do not provide any personal
                 information such as credit card numbers.
               </p>
-              <button className="btn btn-outline-light" type="button">
+              <button
+                className="btn btn-outline-light"
+                type="button"
+                onClick={handleOnClickbtn}
+              >
                 Log in as a member or register a new account
               </button>
             </div>
@@ -42,7 +52,11 @@ const HomeComponent = () => {
                 do not provide any personal information such as credit card
                 numbers.
               </p>
-              <button className="btn btn-outline-secondary" type="button">
+              <button
+                className="btn btn-outline-secondary"
+                type="button"
+                onClick={handleOnClickbtn}
+              >
                 Start a new courses today
               </button>
             </div>
