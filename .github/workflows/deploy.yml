@@ -1,4 +1,4 @@
-name: Deploy to Amazon ECS
+name: Deploy to AWS EC2 using CodeDeploy
 
 on:
   push:
@@ -18,19 +18,10 @@ jobs:
           role-to-assume: arn:aws:iam::688948287774:role/EC2CodeDeployRole
           aws-region: ca-central-1
 
-      - name: Deploy to AWS via CodeDeploy
-        uses: aws-actions/aws-codedeploy-github-actions@v1.0.1
-        with:
-          application-name: Teaching-Platform
-          deployment-group: Teaching-Platform-Grp
-          deployment-config-name: CodeDeployDefault.AllAtOnce
-          #github-token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Run post-deployment script
+      - name: Trigger CodeDeploy deployment
         run: |
-          cd /home/ec2-user/Teaching-Platform/client
-          npm run build
-          mv -f build/ ../server/client/build
-          pm2 restart all
-          sudo systemctl restart nginx
-        shell: bash
+          aws deploy create-deployment \
+            --application-name Teaching-Platform \
+            --deployment-config-name CodeDeployDefault.AllAtOnce \
+            --deployment-group-name Teaching-Platform-Grp \
+            --github-location repository=https://github.com/humbeatbox/Teaching-Platform,commitId=$(git rev-parse HEAD)

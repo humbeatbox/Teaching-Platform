@@ -1,0 +1,10 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /home/ec2-user/Teaching-Platform
+
+hooks:
+  AfterInstall:
+    - location: scripts/post-deploy.sh
+      runas: ec2-user
