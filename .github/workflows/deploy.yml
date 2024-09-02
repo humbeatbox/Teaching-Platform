@@ -15,7 +15,7 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          role-to-assume: arn:aws:iam::688948287774:role/EC2CodeDeployRole
+          role-to-assume: arn:aws:iam::688948287774:role/Dev-codedeploy
           aws-region: ca-central-1
 
       - name: Trigger CodeDeploy deployment
