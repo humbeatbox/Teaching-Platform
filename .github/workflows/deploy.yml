@@ -24,5 +24,5 @@ jobs:
           aws deploy create-deployment \
             --application-name Teaching-Platform \
             --deployment-config-name CodeDeployDefault.AllAtOnce \
-            --deployment-group-name Teaching-Platform-Grp \
+            --deployment-group-name Teaching-Platform-Deployment-Group \
             --github-location repository=humbeatbox/Teaching-Platform,commitId=$(git rev-parse HEAD)
