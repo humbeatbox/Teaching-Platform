@@ -1,10 +1,15 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-const HomeComponent = () => {
+const HomeComponent = ({ currentUser, setCurrentUser, apiUrl }) => {
   const navigate = useNavigate();
   const handleOnClickbtn = () => {
-    navigate("/login");
+    if (currentUser) {
+      console.log(currentUser);
+      navigate("/profile");
+    } else {
+      navigate("/login");
+    }
   };
 
   return (

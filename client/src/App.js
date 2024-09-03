@@ -19,7 +19,7 @@ function App() {
   useEffect(() => {
     const fetchApiUrl = async () => {
       try {
-        const response = await axios.get("/config");
+        const response = await axios.get("/api/config");
         //console.log("Fetched apiUrl:", response.data.apiUrl);
         setApiUrl(response.data.apiUrl);
       } catch (error) {
@@ -38,7 +38,16 @@ function App() {
             <Layout currentUser={currentUser} setCurrentUser={setCurrentUser} />
           }
         >
-          <Route index element={<HomeComponent />}></Route>
+          <Route
+            index
+            element={
+              <HomeComponent
+                currentUser={currentUser}
+                setCurrentUser={setCurrentUser}
+                apiUrl={apiUrl}
+              />
+            }
+          ></Route>
           <Route
             path="/register"
             element={<RegisterComponent apiUrl={apiUrl} />}

@@ -84,15 +84,8 @@ const EnrollComponent = (props) => {
                 <p>Number of students : {course.students.length}</p>
                 <p>Instructor : {course.instructor.username}</p>
                 <p>{course._id}</p>
+                {/*if student already enrolled it will be block  */}
                 {course.students.includes(currentUser.user._id) ? (
-                  // <button
-                  //   href="#"
-                  //   onClick={handleEnroll}
-                  //   className="card-text btn btn-primary"
-                  //   id={course._id}
-                  // >
-                  //   XXX
-                  // </button>
                   <p>Already Enroll~</p>
                 ) : (
                   <button

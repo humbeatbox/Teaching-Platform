@@ -5,3 +5,4 @@
 .env
 
 /server/node_modules
+/client/buildClient.sh

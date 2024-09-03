@@ -43,7 +43,7 @@ app.use(
 );
 
 //for use the config in react(set the environment variable)
-app.get("/config", (req, res) => {
+app.get("/api/config", (req, res) => {
   res.json({ apiUrl: process.env.API_URL });
 });
 // Serve static assets for react in production
