@@ -13,7 +13,7 @@ import EnrollComponent from "./components/enroll-component";
 import axios from "axios";
 function App() {
   let [currentUser, setCurrentUser] = useState(AuthService.getCurrentUser());
-
+  const [loadedConfig, setLoadedConfig] = useState(() => false);
   const [apiUrl, setApiUrl] = useState("");
 
   useEffect(() => {
@@ -21,12 +21,17 @@ function App() {
       try {
         const response = await axios.get("/api/config");
         setApiUrl(response.data.apiUrl);
+        setLoadedConfig(true);
       } catch (error) {
         console.error("Error fetching API URL:", error);
       }
     };
     fetchApiUrl();
   }, []);
+
+  if (!loadedConfig) {
+    return <h1>Loading...</h1>;
+  }
 
   return (
     <BrowserRouter>
