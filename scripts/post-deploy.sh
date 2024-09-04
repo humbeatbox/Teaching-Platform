@@ -16,7 +16,7 @@ sudo rm -rf ../server/client/build
 sudo mv build/ ../server/client/
 
 echo "Restarting PM2 processes..." | tee -a $LOGFILE
-#pm2 restart backend --update-env
+
 pm2 reload all
 echo "Restarting Nginx..." | tee -a $LOGFILE
 sudo systemctl restart nginx
