@@ -20,7 +20,6 @@ function App() {
     const fetchApiUrl = async () => {
       try {
         const response = await axios.get("/api/config");
-        //console.log("Fetched apiUrl:", response.data.apiUrl);
         setApiUrl(response.data.apiUrl);
       } catch (error) {
         console.error("Error fetching API URL:", error);
