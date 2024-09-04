@@ -64,3 +64,5 @@ sudo service codedeploy-agent start
 ```
 
 set up appspect.yml
+
+set up correct IAM role and policy
