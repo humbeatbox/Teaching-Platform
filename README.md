@@ -68,3 +68,5 @@ set up appspect.yml
 set up correct IAM role and policy
 
 give the EC2 the IAM role for Deploy
+
+create IAM role for CodeDeploy let CodeDeploy Application can access EC2 for Deploy
