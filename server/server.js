@@ -43,15 +43,15 @@ app.use(
 );
 
 //for use the config in react(set the environment variable)
-app.get("/api/config", (req, res) => {
-  res.json({ apiUrl: process.env.API_URL });
-});
-// Serve static assets for react in production
-const path = require("path");
-app.use(express.static(path.join(__dirname, "client/build")));
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "client/build", "index.html"));
-});
+// app.get("/api/config", (req, res) => {
+//   res.json({ apiUrl: process.env.API_URL });
+// });
+// // Serve static assets for react in production
+// const path = require("path");
+// app.use(express.static(path.join(__dirname, "client/build")));
+// app.get("*", (req, res) => {
+//   res.sendFile(path.join(__dirname, "client/build", "index.html"));
+// });
 
 const PORT = 8080;
 
