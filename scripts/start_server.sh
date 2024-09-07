@@ -3,4 +3,4 @@
 pm2 reload all
 
 
-sudo systemctl start myapp.service
+sudo systemctl start nginx
