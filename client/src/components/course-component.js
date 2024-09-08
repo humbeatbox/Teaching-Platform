@@ -18,7 +18,7 @@ const CourseComponent = ({ currentUser, setCurrentUser, apiUrl }) => {
         CourseService.getCourseByInstructorId(_id, apiUrl)
           .then((data) => {
             setCourseData(data.data);
-            console.log(data);
+            //console.log(data);
             // if (Array.isArray(data.data)) {
             //   setCourseData(data.data);
             // } else {

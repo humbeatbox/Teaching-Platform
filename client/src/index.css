@@ -1,6 +1,6 @@
 @font-face {
   font-family: "JetBrainsMono";
-  src: url("/client/public/fonts/JetBrainsMono-Regular.woff2") format("woff2");
+  src: url("../public/fonts/JetBrainsMono-Regular.woff2") format("woff2");
   font-weight: normal;
   font-style: normal;
 }
