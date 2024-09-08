@@ -96,7 +96,7 @@ class CourseService {
     } else {
       token = "";
     }
-    console.log("delete course with id: " + _id);
+    //console.log("delete course with id: " + _id);
     return axios.delete(`${apiUrl}/courses/` + _id, {
       headers: {
         Authorization: token,
