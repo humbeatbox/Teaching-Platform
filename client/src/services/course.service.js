@@ -22,6 +22,20 @@ class CourseService {
     );
   }
 
+  //get all courses
+  getCourses(apiUrl) {
+    let token = "";
+    if (localStorage.getItem("user")) {
+      token = JSON.parse(localStorage.getItem("user")).token;
+    }
+
+    return axios.get(`${apiUrl}/courses`, {
+      headers: {
+        Authorization: token,
+      },
+    });
+  }
+
   //use student id to get the courses that student enrolled
   getEnrolledCourses(_id, apiUrl) {
     let token;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CourseService from "../services/course.service";
 
@@ -8,7 +8,20 @@ const EnrollComponent = (props) => {
   const navigate = useNavigate();
   let [searchInput, setSearchInput] = useState("");
   let [searchResult, setSearchResult] = useState(null);
-  setCurrentUser(() => {}); //for preventing ESLint error
+  setCurrentUser(currentUser); //for preventing ESLint error
+
+  useEffect(() => {
+    CourseService.getCourses(apiUrl)
+      .then((data) => {
+        console.log("Courses data:", data);
+        setSearchResult(data.data.slice(0, 6)); // show first 6 courses
+      })
+      .catch((err) => {
+        console.log("Error fetching courses:", err);
+      });
+    console.log("Enroll component mounted");
+  }, [apiUrl]);
+
   const handleTakeToLogin = () => {
     navigate("/login");
   };
@@ -16,9 +29,13 @@ const EnrollComponent = (props) => {
     setSearchInput(e.target.value);
   };
   const handleSearch = () => {
+    if (!searchInput.trim()) {
+      window.alert("Please enter a course name.");
+      return;
+    }
     CourseService.getCourseByName(searchInput, apiUrl)
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         setSearchResult(data.data);
       })
       .catch((err) => {
@@ -76,7 +93,7 @@ const EnrollComponent = (props) => {
       {/* search result */}
       {currentUser && searchResult && searchResult.length !== 0 && (
         <div>
-          <p>Search result</p>
+          <p>Search result!</p>
           {searchResult.map((course) => (
             <div key={course._id} className="card" style={{ width: "18rem" }}>
               <div className="card-body">
@@ -91,7 +108,6 @@ const EnrollComponent = (props) => {
                   <p>Already Enroll~</p>
                 ) : (
                   <button
-                    href="#"
                     onClick={handleEnroll}
                     className="card-text btn btn-primary"
                     id={course._id}
@@ -103,6 +119,9 @@ const EnrollComponent = (props) => {
             </div>
           ))}
         </div>
+      )}
+      {currentUser && searchResult && searchResult.length === 0 && (
+        <p>No courses found</p>
       )}
     </div>
   );
