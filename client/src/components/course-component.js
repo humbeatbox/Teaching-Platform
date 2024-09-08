@@ -8,6 +8,7 @@ const CourseComponent = ({ currentUser, setCurrentUser, apiUrl }) => {
     navigate("/login");
   };
   const [courseData, setCourseData] = useState(null);
+
   useEffect(() => {
     let _id;
     if (currentUser) {
@@ -47,6 +48,20 @@ const CourseComponent = ({ currentUser, setCurrentUser, apiUrl }) => {
     }
   }, [apiUrl, currentUser]);
 
+  const handleDeleteCourse = (e) => {
+    const courseId = e.target.id;
+    CourseService.deleteCourse(courseId, apiUrl)
+      .then((data) => {
+        window.alert("Delete successfully");
+        setCourseData((prevCourses) =>
+          prevCourses.filter((course) => course._id !== courseId)
+        );
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
   return (
     <div style={{ padding: "3rem" }}>
       {!currentUser && (
@@ -62,12 +77,12 @@ const CourseComponent = ({ currentUser, setCurrentUser, apiUrl }) => {
       )}
       {currentUser && currentUser.user.role === "instructor" && (
         <div>
-          <h1>You are Instructor</h1>
+          <h1>You are a Instructor</h1>
         </div>
       )}
       {currentUser && currentUser.user.role === "student" && (
         <div>
-          <h1>You are Student</h1>
+          <h1>You are a Student</h1>
         </div>
       )}
       {currentUser && courseData && courseData.length !== 0 && (
@@ -86,6 +101,25 @@ const CourseComponent = ({ currentUser, setCurrentUser, apiUrl }) => {
                   <p style={{ margin: "0.5rem 0rem" }}>
                     Course price {course.price}
                   </p>
+                  <p>Course ID : {course._id}</p>
+                  {currentUser.user.role === "instructor" && (
+                    <>
+                      <button
+                        className="btn btn-primary"
+                        onClick={handleDeleteCourse}
+                        id={course._id}
+                      >
+                        Delete
+                      </button>
+                      <button
+                        className="btn btn-secondary"
+                        // onClick={handleEditCourse} //TODO
+                        style={{ marginLeft: "0.5rem" }}
+                      >
+                        Edit
+                      </button>
+                    </>
+                  )}
                 </div>
               </div>
             );

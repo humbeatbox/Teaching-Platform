@@ -87,7 +87,24 @@ class CourseService {
       }
     );
   }
+
+  //delete course by courseID
+  deleteCourse(_id, apiUrl) {
+    let token;
+    if (localStorage.getItem("user")) {
+      token = JSON.parse(localStorage.getItem("user")).token;
+    } else {
+      token = "";
+    }
+    console.log("delete course with id: " + _id);
+    return axios.delete(`${apiUrl}/courses/` + _id, {
+      headers: {
+        Authorization: token,
+      },
+    });
+  }
 }
+
 const CourseServiceInstance = new CourseService();
 
 export default CourseServiceInstance;
