@@ -12,6 +12,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Install and build client
+        run: |
+          cd client
+          npm install
+          npm run build
+
+      - name: Transfer build folder to EC2
+        run: |
+          echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ec2-user@${{ secrets.EC2_HOST }} "rm -rf ${{ secrets.EC2_APP_PATH }}/build"
+          scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -r client/build ec2-user@${{ secrets.EC2_HOST }}:${{ secrets.EC2_APP_PATH }}/
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
