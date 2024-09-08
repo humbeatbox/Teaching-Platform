@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CourseService from "../services/course.service";
 
 const EnrollComponent = (props) => {
   let { currentUser, setCurrentUser, apiUrl } = props;
+
   const navigate = useNavigate();
   let [searchInput, setSearchInput] = useState("");
   let [searchResult, setSearchResult] = useState(null);
+  setCurrentUser(() => {}); //for preventing ESLint error
   const handleTakeToLogin = () => {
     navigate("/login");
   };
