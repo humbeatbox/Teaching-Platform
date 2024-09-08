@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-const HomeComponent = ({ currentUser, setCurrentUser, apiUrl }) => {
+const HomeComponent = ({ currentUser }) => {
   const navigate = useNavigate();
   const handleOnClickbtn = () => {
     if (currentUser) {

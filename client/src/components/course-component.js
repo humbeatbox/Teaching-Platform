@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import CourseService from "../services/course.service";
 
-const CourseComponent = ({ currentUser, setCurrentUser, apiUrl }) => {
+const CourseComponent = ({ currentUser, apiUrl }) => {
   const navigate = useNavigate();
   const handleTakeToLogin = () => {
     navigate("/login");

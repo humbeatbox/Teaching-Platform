@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthService from "../services/auth.service";
 
-const LoginComponent = ({ currentUser, setCurrentUser, apiUrl }) => {
+const LoginComponent = ({ setCurrentUser, apiUrl }) => {
   const navigate = useNavigate();
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");

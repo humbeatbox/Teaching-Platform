@@ -1,4 +1,4 @@
-const ProfileComponent = ({ currentUser, setCurrentUser }) => {
+const ProfileComponent = ({ currentUser }) => {
   return (
     <div style={{ padding: "3rem" }}>
       {!currentUser && <div>You need to Login first!</div>}
