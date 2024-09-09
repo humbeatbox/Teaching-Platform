@@ -50,6 +50,12 @@ const CourseComponent = ({ currentUser, apiUrl }) => {
 
   const handleDeleteCourse = (e) => {
     const courseId = e.target.id;
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this course?"
+    );
+    if (!confirmed) {
+      return;
+    }
     CourseService.deleteCourse(courseId, apiUrl)
       .then((data) => {
         window.alert("Delete successfully");
