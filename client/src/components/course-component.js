@@ -67,6 +67,11 @@ const CourseComponent = ({ currentUser, apiUrl }) => {
         console.log(e);
       });
   };
+  const handleUpdateCourse = (e) => {
+    const courseId = e.target.id;
+    // const _id = currentUser.user._id;
+    navigate(`/edit-course/${courseId}`);
+  };
 
   return (
     <div style={{ padding: "3rem" }}>
@@ -119,7 +124,8 @@ const CourseComponent = ({ currentUser, apiUrl }) => {
                       </button>
                       <button
                         className="btn btn-secondary"
-                        // onClick={handleEditCourse} //TODO
+                        onClick={handleUpdateCourse}
+                        id={course._id}
                         style={{ marginLeft: "0.5rem" }}
                       >
                         Edit

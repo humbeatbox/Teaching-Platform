@@ -117,6 +117,36 @@ class CourseService {
       },
     });
   }
+
+  //update course by courseID
+  updateCourse(_id, courseData, apiUrl) {
+    let token;
+    if (localStorage.getItem("user")) {
+      token = JSON.parse(localStorage.getItem("user")).token;
+    } else {
+      token = "";
+    }
+    return axios.put(`${apiUrl}/courses/` + _id, courseData, {
+      headers: {
+        Authorization: token,
+      },
+    });
+  }
+
+  //get course by courseID
+  getCourseById(_id, apiUrl) {
+    let token;
+    if (localStorage.getItem("user")) {
+      token = JSON.parse(localStorage.getItem("user")).token;
+    } else {
+      token = "";
+    }
+    return axios.get(`${apiUrl}/courses/` + _id, {
+      headers: {
+        Authorization: token,
+      },
+    });
+  }
 }
 
 const CourseServiceInstance = new CourseService();

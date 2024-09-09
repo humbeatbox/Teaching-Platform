@@ -9,7 +9,7 @@ import AuthService from "./services/auth.service";
 import CourseComponent from "./components/course-component";
 import PostCourseComponent from "./components/postCourse-component";
 import EnrollComponent from "./components/enroll-component";
-
+import EditCourseComponent from "./components/editCourse-component";
 import axios from "axios";
 function App() {
   let [currentUser, setCurrentUser] = useState(AuthService.getCurrentUser());
@@ -103,6 +103,16 @@ function App() {
                 setCurrentUser={setCurrentUser}
                 apiUrl={apiUrl}
               />
+            }
+          ></Route>
+          <Route
+            path="/edit-course/:courseId"
+            element={
+              <EditCourseComponent
+                currentUser={currentUser}
+                setCurrentUser={setCurrentUser}
+                apiUrl={apiUrl}
+              ></EditCourseComponent>
             }
           ></Route>
         </Route>
