@@ -7,7 +7,7 @@ const LoginComponent = ({ setCurrentUser, apiUrl }) => {
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
   let [message, setMessage] = useState("");
-
+  let [loading, setLoading] = useState(false);
   const handleChangeEmail = (e) => {
     setEmail(e.target.value);
   };
@@ -16,6 +16,8 @@ const LoginComponent = ({ setCurrentUser, apiUrl }) => {
   };
 
   const handleLogin = async () => {
+    setLoading(true); //for loading spinner
+    setMessage("");
     try {
       let response = await AuthService.login(email, password, apiUrl);
       // console.log(response.data);
@@ -25,6 +27,7 @@ const LoginComponent = ({ setCurrentUser, apiUrl }) => {
       navigate("/profile");
     } catch (e) {
       setMessage(e.response.data);
+      setLoading(false); //if login failed, stop loading spinner
     }
   };
 
@@ -61,7 +64,13 @@ const LoginComponent = ({ setCurrentUser, apiUrl }) => {
         <br />
         <div className="form-group">
           <button onClick={handleLogin} className="btn btn-primary btn-block">
-            <span>Login</span>
+            {loading ? (
+              <span>
+                <i className="fa fa-spinner fa-spin"></i> Loading...
+              </span>
+            ) : (
+              <span>Login</span>
+            )}
           </button>
         </div>
       </div>

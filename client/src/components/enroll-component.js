@@ -92,8 +92,7 @@ const EnrollComponent = (props) => {
       )}
       {/* search result */}
       {currentUser && searchResult && searchResult.length !== 0 && (
-        <div>
-          <p>Search result!</p>
+        <div style={{ display: "flex", flexWrap: "wrap" }}>
           {searchResult.map((course) => (
             <div key={course._id} className="card" style={{ width: "18rem" }}>
               <div className="card-body">
