@@ -5,9 +5,9 @@ WORKDIR /usr/src/app/server
 # Install build dependencies
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-    python3 \
-    make \
-    g++ \
+        python3 \
+        make \
+        g++ \
     && rm -rf /var/lib/apt/lists/*
 
 COPY server/package*.json ./
