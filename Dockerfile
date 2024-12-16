@@ -3,7 +3,11 @@ FROM node:18-slim as backend-builder
 WORKDIR /usr/src/app/server
 
 # Install build dependencies
-RUN apt-get update && apt-get install -y python3 make g++ \
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    python3 \
+    make \
+    g++ \
     && rm -rf /var/lib/apt/lists/*
 
 COPY server/package*.json ./
