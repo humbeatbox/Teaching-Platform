@@ -4,7 +4,6 @@ on:
   push:
     branches: ["master"]
 
-# 允許 OIDC 身份驗證的權限
 permissions:
   id-token: write
   contents: read
@@ -24,7 +23,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # 使用 OIDC 進行身份驗證
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -43,6 +41,43 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
+      # Create a temporary production docker-compose file
+      - name: Create production docker-compose file
+        env:
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          cat > docker-compose.prod.yml << EOL
+          version: "3.8"
+
+          services:
+            app:
+              container_name: teaching-platform
+              image: ${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG}
+              ports:
+                - "8080:8080"
+              environment:
+                - NODE_ENV=production
+                - MONGODB_CONNECTION=\${MONGODB_CONNECTION}
+                - PASSPORT_SECRET=\${PASSPORT_SECRET}
+                - API_URL=\${API_URL}
+              restart: always
+              depends_on:
+                - mongodb
+
+            mongodb:
+              container_name: mongodb
+              image: mongo:latest
+              ports:
+                - "27017:27017"
+              volumes:
+                - mongodb_data:/data/db
+              restart: always
+
+          volumes:
+            mongodb_data:
+              driver: local
+          EOL
+
       - name: Deploy to EC2
         uses: appleboy/ssh-action@master
         with:
@@ -50,13 +85,56 @@ jobs:
           username: ec2-user
           key: ${{ secrets.EC2_SSH_KEY_2 }}
           script: |
+            # Create deployment directory if it doesn't exist
+            mkdir -p ~/teaching-platform
 
+            # Create .env file with required variables
+            cat > ~/teaching-platform/.env << EOL
+            MONGODB_CONNECTION=${{ secrets.MONGODB_CONNECTION }}
+            PASSPORT_SECRET=${{ secrets.PASSPORT_SECRET }}
+            API_URL=${{ secrets.API_URL }}
+            EOL
+
+            # Login to ECR
             aws ecr get-login-password --region ${{ env.AWS_REGION }} | docker login --username AWS --password-stdin ${{ env.ECR_REGISTRY }}
 
+            # Stop and remove existing containers
+            cd ~/teaching-platform
             docker-compose down || true
 
+            # Pull the new image
             docker pull ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ github.sha }}
 
-            sed -i "s|image: .*|image: ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ github.sha }}|" docker-compose.yml
+            # Copy the new docker-compose file
+            echo "version: \"3.8\"
 
+            services:
+              app:
+                container_name: teaching-platform
+                image: ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ github.sha }}
+                ports:
+                  - \"8080:8080\"
+                env_file:
+                  - .env
+                restart: always
+                depends_on:
+                  - mongodb
+
+              mongodb:
+                container_name: mongodb
+                image: mongo:latest
+                ports:
+                  - \"27017:27017\"
+                volumes:
+                  - mongodb_data:/data/db
+                restart: always
+
+            volumes:
+              mongodb_data:
+                driver: local" > docker-compose.yml
+
+            # Start the new containers
             docker-compose up -d
+
+            # Clean up old images
+            docker image prune -af
