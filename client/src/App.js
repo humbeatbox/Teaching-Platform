@@ -11,27 +11,26 @@ import PostCourseComponent from "./components/postCourse-component";
 import EnrollComponent from "./components/enroll-component";
 import EditCourseComponent from "./components/editCourse-component";
 import axios from "axios";
+
 function App() {
-  let [currentUser, setCurrentUser] = useState(AuthService.getCurrentUser());
-  const [loadedConfig, setLoadedConfig] = useState(() => false);
-  const [apiUrl, setApiUrl] = useState("");
+  const [currentUser, setCurrentUser] = useState(AuthService.getCurrentUser());
+  const [apiUrl, setApiUrl] = useState(process.env.REACT_APP_API_URL || "");
 
   useEffect(() => {
     const fetchApiUrl = async () => {
       try {
         const response = await axios.get("/api/config");
         setApiUrl(response.data.apiUrl);
-        setLoadedConfig(true);
       } catch (error) {
         console.error("Error fetching API URL:", error);
+        // Fall back to default API URL if configured
+        if (!apiUrl && process.env.REACT_APP_API_URL) {
+          setApiUrl(process.env.REACT_APP_API_URL);
+        }
       }
     };
     fetchApiUrl();
-  }, []);
-
-  if (!loadedConfig) {
-    return <h1>Loading...</h1>;
-  }
+  }, [apiUrl]);
 
   return (
     <BrowserRouter>
@@ -48,14 +47,13 @@ function App() {
               <HomeComponent
                 currentUser={currentUser}
                 setCurrentUser={setCurrentUser}
-                apiUrl={apiUrl}
               />
             }
-          ></Route>
+          />
           <Route
             path="/register"
             element={<RegisterComponent apiUrl={apiUrl} />}
-          ></Route>
+          />
           <Route
             path="/login"
             element={
@@ -65,7 +63,7 @@ function App() {
                 apiUrl={apiUrl}
               />
             }
-          ></Route>
+          />
           <Route
             path="/profile"
             element={
@@ -74,7 +72,7 @@ function App() {
                 setCurrentUser={setCurrentUser}
               />
             }
-          ></Route>
+          />
           <Route
             path="/course"
             element={
@@ -84,7 +82,7 @@ function App() {
                 apiUrl={apiUrl}
               />
             }
-          ></Route>
+          />
           <Route
             path="/postCourse"
             element={
@@ -94,7 +92,7 @@ function App() {
                 apiUrl={apiUrl}
               />
             }
-          ></Route>
+          />
           <Route
             path="/enroll"
             element={
@@ -104,7 +102,7 @@ function App() {
                 apiUrl={apiUrl}
               />
             }
-          ></Route>
+          />
           <Route
             path="/edit-course/:courseId"
             element={
@@ -112,9 +110,9 @@ function App() {
                 currentUser={currentUser}
                 setCurrentUser={setCurrentUser}
                 apiUrl={apiUrl}
-              ></EditCourseComponent>
+              />
             }
-          ></Route>
+          />
         </Route>
       </Routes>
     </BrowserRouter>

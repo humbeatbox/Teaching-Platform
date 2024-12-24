@@ -5,7 +5,6 @@ const HomeComponent = ({ currentUser }) => {
   const navigate = useNavigate();
   const handleOnClickbtn = () => {
     if (currentUser) {
-      console.log(currentUser);
       navigate("/profile");
     } else {
       navigate("/login");
@@ -17,52 +16,58 @@ const HomeComponent = ({ currentUser }) => {
       <div className="container py-4">
         <div className="p-5 mb-4 bg-light rounded-3">
           <div className="container-fluid py-5">
-            <h1 className="display-5 fw-bold">Learning Retail Platform</h1>
+            <h1 className="display-5 fw-bold">
+              Modern Online Learning Platform
+            </h1>
             <p className="col-md-8 fs-4">
-              This system uses React.js as the front-end framework, Node.js,
-              MongoDB as a backend server. This kind of project is called MERN
-              Project, it is one of the most popular ways to create modern
-              websites.
+              A full-stack learning management system built with the MERN stack
+              (MongoDB, Express.js, React, Node.js). Featuring secure JWT
+              authentication, RESTful API design, and responsive UI with
+              Bootstrap. Demonstrating expertise in modern web development with
+              real-time user interactions and database management.
             </p>
-            {/* <button className="btn btn-primary btn-lg" type="button">
-              See how it works.
-            </button> */}
           </div>
         </div>
 
         <div className="row align-items-md-stretch">
           <div className="col-md-6">
             <div className="h-100 p-5 text-white bg-dark rounded-3">
-              <h2>As a Student</h2>
+              <h2>Key Technical Features</h2>
               <p>
-                Students can register for courses of their choice. This site is
-                for practice purposes only, please do not provide any personal
-                information such as credit card numbers.
+                • Secure user authentication and role-based access control
+                <br />
+                • Dynamic course management system with CRUD operations
+                <br />
+                • Real-time course search and enrollment functionality
+                <br />
+                • Responsive design using Bootstrap and React components
+                <br />• RESTful API endpoints with Express.js and MongoDB
               </p>
               <button
                 className="btn btn-outline-light"
                 type="button"
                 onClick={handleOnClickbtn}
               >
-                Log in as a member or register a new account
+                Explore Platform Features
               </button>
             </div>
           </div>
           <div className="col-md-6">
             <div className="h-100 p-5 bg-light border rounded-3">
-              <h2>As a Instructor</h2>
+              <h2>Getting Started</h2>
               <p>
-                You can become an instructor by signing up and start creating
-                online courses. This site is for practice purposes only, please
-                do not provide any personal information such as credit card
-                numbers.
+                Students can browse courses, enroll in their preferred classes,
+                and track their learning progress. Instructors can create and
+                manage courses, monitor student enrollment, and update course
+                content. Register now to access our comprehensive learning
+                management system.
               </p>
               <button
                 className="btn btn-outline-secondary"
                 type="button"
                 onClick={handleOnClickbtn}
               >
-                Start a new courses today
+                Join Our Platform
               </button>
             </div>
           </div>
