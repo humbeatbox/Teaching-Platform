@@ -72,7 +72,7 @@ The application follows a microservices architecture with:
 1. Clone the repository:
 
 ```bash
-git clone [repository-url]
+git clone git@github.com:humbeatbox/Teaching-Platform.git
 cd teaching-platform
 ```
 
@@ -151,4 +151,4 @@ This project is licensed under the ISC License.
 
 ## 📧 Contact
 
-Your Name - Gary Chang
+Gary Chang : hchang67@myseneca.ca
