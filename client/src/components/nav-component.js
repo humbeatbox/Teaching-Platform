@@ -91,7 +91,7 @@ const NavComponent = ({ currentUser, setCurrentUser }) => {
               <div className="ms-auto">
                 <button
                   onClick={handleGoToPersonalHomepage}
-                  className="btn btn-danger"
+                  className="nav-link active"
                 >
                   Back to Gary's Homepage
                 </button>
