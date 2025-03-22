@@ -8,6 +8,10 @@ const NavComponent = ({ currentUser, setCurrentUser }) => {
     window.alert("Logout successfully");
     setCurrentUser(null);
   };
+  const handleGoToPersonalHomepage = () => {
+    // Open my personal website in a new tab
+    window.open("https://garychang1214.com", "_blank");
+  };
 
   return (
     <div>
@@ -30,7 +34,7 @@ const NavComponent = ({ currentUser, setCurrentUser }) => {
               <ul className="navbar-nav">
                 <li className="nav-item">
                   <Link className="nav-link active" to="/">
-                    Home Page
+                    Online Learning Platform
                   </Link>
                 </li>
                 {!currentUser && (
@@ -83,6 +87,15 @@ const NavComponent = ({ currentUser, setCurrentUser }) => {
                   </li>
                 )}
               </ul>
+
+              <div className="ms-auto">
+                <button
+                  onClick={handleGoToPersonalHomepage}
+                  className="btn btn-danger"
+                >
+                  Back to Gary's Homepage
+                </button>
+              </div>
             </div>
           </div>
         </nav>
