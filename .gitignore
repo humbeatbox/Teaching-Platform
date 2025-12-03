@@ -1,8 +1,41 @@
-.DS_Store
-.vscode
-.README.md.bak
-.env-local
-.env
+# DevOps artifacts
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
 
-/server/node_modules
-/client/buildClient.sh
+# Secrets
+*.env
+!.env.example
+secrets/
+*.key
+*.pem
+
+# Jenkins
+jenkins_home/
+
+# Helm
+*.tgz
+charts/
+
+# K8s
+kubeconfig*
+!kubeconfig.example
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Vault
+vault-data/
+
+# Temporary files
+tmp/
+temp/
