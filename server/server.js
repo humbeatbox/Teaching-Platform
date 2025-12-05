@@ -46,6 +46,47 @@ app.use(
 app.get("/api/config", (req, res) => {
   res.json({ apiUrl: process.env.API_URL });
 });
+
+// Health check endpoints for Kubernetes
+// Liveness probe - checks if the application is running
+app.get("/health", (req, res) => {
+  res.status(200).json({
+    status: "healthy",
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime(),
+  });
+});
+
+// Readiness probe - checks if the application is ready to serve traffic
+app.get("/ready", async (req, res) => {
+  try {
+    // Check MongoDB connection state
+    // 0 = disconnected, 1 = connected, 2 = connecting, 3 = disconnecting
+    const dbState = mongoose.connection.readyState;
+
+    if (dbState !== 1) {
+      return res.status(503).json({
+        status: "not ready",
+        reason: "database not connected",
+        dbState: dbState,
+        timestamp: new Date().toISOString(),
+      });
+    }
+
+    res.status(200).json({
+      status: "ready",
+      database: "connected",
+      timestamp: new Date().toISOString(),
+    });
+  } catch (error) {
+    res.status(503).json({
+      status: "not ready",
+      error: error.message,
+      timestamp: new Date().toISOString(),
+    });
+  }
+});
+
 // Serve static assets for react in production
 const path = require("path");
 app.use(express.static(path.join(__dirname, "client/build")));
@@ -55,6 +96,8 @@ app.get("*", (req, res) => {
 
 const PORT = 8080;
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
+  console.log(`Health check available at http://localhost:${PORT}/health`);
+  console.log(`Readiness check available at http://localhost:${PORT}/ready`);
 });
