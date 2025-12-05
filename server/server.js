@@ -101,3 +101,37 @@ const server = app.listen(PORT, () => {
   console.log(`Health check available at http://localhost:${PORT}/health`);
   console.log(`Readiness check available at http://localhost:${PORT}/ready`);
 });
+
+// Graceful shutdown handler
+const gracefulShutdown = async (signal) => {
+  console.log(`\n${signal} received. Starting graceful shutdown...`);
+
+  // Stop accepting new connections
+  server.close(async () => {
+    console.log('HTTP server closed');
+
+    try {
+      // Close database connection
+      await mongoose.connection.close();
+      console.log('MongoDB connection closed');
+
+      console.log('Graceful shutdown completed');
+      process.exit(0);
+    } catch (error) {
+      console.error('Error during shutdown:', error);
+      process.exit(1);
+    }
+  });
+
+  // Force shutdown after timeout (10 seconds)
+  setTimeout(() => {
+    console.error('Forced shutdown after timeout');
+    process.exit(1);
+  }, 10000);
+};
+
+// Listen for shutdown signals
+// SIGTERM: Kubernetes sends this when terminating a pod
+// SIGINT: Ctrl+C in terminal
+process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
+process.on('SIGINT', () => gracefulShutdown('SIGINT'));
