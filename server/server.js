@@ -11,6 +11,7 @@ const passport = require("passport");
 require("./config/passport")(passport); //will call the function in passport.js
 
 const cors = require("cors");
+const helmet = require("helmet");
 
 // Connect to DB
 mongoose
@@ -27,6 +28,7 @@ mongoose
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+app.use(helmet()); // Add security headers
 
 // Route Middlewares
 app.use("/api/user", authRoute);
