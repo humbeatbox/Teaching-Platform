@@ -24,19 +24,17 @@ WORKDIR /usr/src/app
 # Create non-root user (security best practice, kept from original)
 RUN groupadd -r nodeapp && useradd -r -g nodeapp -m nodeapp
 
-# Copy built dependencies from backend-deps (No need for apt-get install python3/make/g++ here!)
-COPY --from=backend-deps /usr/src/app/server/node_modules ./server/node_modules
+# Copy built dependencies from backend-deps with correct ownership
+COPY --from=backend-deps --chown=nodeapp:nodeapp /usr/src/app/server/node_modules ./server/node_modules
 
-# Copy built frontend assets
-COPY --from=frontend-builder /usr/src/app/client/build ./server/client/build
+# Copy built frontend assets with correct ownership
+COPY --from=frontend-builder --chown=nodeapp:nodeapp /usr/src/app/client/build ./server/client/build
 
-# Copy backend source code
-COPY server/ ./server
+# Copy backend source code with correct ownership
+COPY --chown=nodeapp:nodeapp server/ ./server
 
+# Set working directory
 WORKDIR /usr/src/app/server
-
-# Ownership
-RUN chown -R nodeapp:nodeapp /usr/src/app
 
 # Switch to non-root user
 USER nodeapp
